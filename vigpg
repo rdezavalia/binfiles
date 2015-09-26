@@ -1,0 +1,2 @@
+#!/bin/bash
+ssh -t rdz@ns1.zavalia.org 'bash -c "vim -u ~/.vim_gnupg ~/.password.gpg"'
