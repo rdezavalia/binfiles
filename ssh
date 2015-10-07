@@ -1,0 +1,16 @@
+#!/bin/bash
+
+export CONFDW_CONF="$HOME/.ssh/config"
+export CONFDW_DIR="$HOME/.ssh_conf.d"
+export CONFDW_APP='/usr/bin/ssh'
+export CONFDW_EXT='*.cfg'
+
+if [[ -x "$HOME/bin/confdw/confdw" ]]; then
+    TERM='rxvt' "$HOME/bin/confdw/confdw" "$@"
+else
+    TERM='rxvt' "$CONFDW_APP" "$@"
+fi
+
+exit 0
+
+
