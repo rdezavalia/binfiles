@@ -1,0 +1,39 @@
+#! /bin/bash
+# Create/start an lxc container
+
+warn () {
+  echo "$@" >&2
+}
+
+die () {
+  status="$1"
+  shift
+  warn "$@"
+  exit "$status"
+}
+
+
+LAST_OCTECT=$(( ( RANDOM % 89 ) + 101 ))
+IPADDR="192.168.100.$LAST_OCTECT"
+MASK="/24"
+BASE_LXC='debian8_base'
+
+if [[ -z "$1" ]]; then
+	die 1 "container missing"
+fi
+
+if [[ -n "$2" ]]; then
+	IPADDR="$2"
+fi
+
+if  ! lxc-info -p $1 > /dev/null 2>&1 ; then
+	lxc-clone -o $BASE_LXC -n $1
+fi
+
+echo "IP ADDR: $IPADDR"
+lxc-start -n $1 -d
+/root/bin/pipework lxcbr0 $1 $IPADDR$MASK@192.168.100.1
+	
+
+
+
